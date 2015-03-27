@@ -1,0 +1,30 @@
+{
+  "name": "etdsolutions/service",
+  "type": "etd-package",
+  "minimum-stability": "dev",
+  "description": "Package Service du Framework ETD",
+  "homepage": "https://github.com/etd-framework/service",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Jean-Baptiste Alleaume",
+      "email": "jb.alleaume@etd-solutions.com",
+      "homepage": "http://alleau.me",
+      "role": "Manager"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "joomla/di": "2.0.*@dev",
+    "joomla/registry": "2.0.*@dev",
+    "joomla/database": "2.0.*@dev",
+    "joomla/session": "~1.2",
+    "etdsolutions/renderer": "@dev",
+    "twig/twig": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "EtdSolutions\\Service\\": "src/"
+    }
+  }
+}
