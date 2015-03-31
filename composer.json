@@ -20,7 +20,7 @@
     "joomla/database": "2.0.*@dev",
     "joomla/session": "~1.2",
     "etdsolutions/renderer": "@dev",
-    "twig/twig": "~1.0"
+    "etdsolutions/user": "@dev"
   },
   "autoload": {
     "psr-4": {
