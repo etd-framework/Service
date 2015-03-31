@@ -9,7 +9,7 @@
 
 namespace EtdSolutions\Service;
 
-use EtdSolutions\EtdInterfaces\Renderer\TwigExtension;
+use EtdSolutions\Renderer\TwigExtension;
 use Joomla\Application\AbstractApplication;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -53,8 +53,14 @@ class TwigRendererProvider implements ServiceProviderInterface {
                 // On instancie l'objet renderer.
                 $renderer = new TwigRenderer($config->get('template'));
 
-                // On ajoute nos extensions Twig.
-                $renderer->getRenderer()->addExtension(new TwigExtension($this->app));
+                // On ajoute l'extension Twig du Framework.
+                $renderer->getRenderer()->addExtension(new TwigExtension($this->app, $container));
+
+                // On ajoute l'extension de l'application si elle existe.
+                $class = APP_NAMESPACE . '\\Renderer\\TwigExtension';
+                if (class_exists($class)) {
+                    $renderer->getRenderer()->addExtension(new $class($this->app, $container));
+                }
 
                 // On définit l'objet Lexer.
                 $renderer->getRenderer()->setLexer(
