@@ -20,7 +20,8 @@
     "joomla/database": "~1.0",
     "joomla/session": "~1.2",
     "etdsolutions/renderer": "@dev",
-    "etdsolutions/user": "@dev"
+    "etdsolutions/user": "@dev",
+    "etdsolutions/language": "@dev"
   },
   "autoload": {
     "psr-4": {
