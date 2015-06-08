@@ -18,10 +18,12 @@
     "joomla/di": "2.0.*@dev",
     "joomla/registry": "2.0.*@dev",
     "joomla/database": "~1.0",
-    "joomla/session": "~1.2",
-    "etdsolutions/renderer": "@dev",
-    "etdsolutions/user": "@dev",
     "etdsolutions/language": "@dev"
+  },
+  "suggest": {
+    "etdsolutions/renderer": "Pour utiliser l'extension Twig dans le fournisseur de service",
+    "etdsolutions/user": "Pour utiliser l'utilisateur dans le fournisseur de service",
+    "joomla/session": "Pour utiliser la session dans le fournisseur de service"
   },
   "autoload": {
     "psr-4": {
