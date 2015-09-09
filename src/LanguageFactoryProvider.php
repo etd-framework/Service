@@ -48,5 +48,7 @@ class LanguageFactoryProvider implements ServiceProviderInterface {
                 return $factory;
             }, true
         );
+
+        $container->alias('language', 'Joomla\\Language\\LanguageFactory');
     }
 }
