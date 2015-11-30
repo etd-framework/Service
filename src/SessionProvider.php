@@ -11,7 +11,10 @@ namespace EtdSolutions\Service;
 
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Input\Input;
+use Joomla\Session\Handler\DatabaseHandler;
 use Joomla\Session\Session;
+use Joomla\Session\Storage\NativeStorage;
 
 /**
  * Fournisseur du service Session
@@ -27,17 +30,20 @@ class SessionProvider implements ServiceProviderInterface {
      */
     public function register(Container $container) {
 
-        $container->set('Joomla\\Session\\Session', function () use ($container) {
+        $container->set('Joomla\\Session\\SessionInterface', function () use ($container) {
 
             $config = $container->get('config');
 
-            $session = Session::getInstance('Database', [
-                'name'          => $config->get('sitename'),
-                'expire'        => $config->get('session_expire'),
-                'force_ssl'     => $config->get('force_ssl'),
+            $store = new NativeStorage(new DatabaseHandler($container->get('db')), [
+                'name'          => md5($config->get('sitename')),
                 'cookie_domain' => $config->get('cookie.domain'),
-                'cookie_path'   => $config->get('cookie.path'),
-                'db'            => $container->get('db')
+                'cookie_path'   => $config->get('cookie.path')
+            ]);
+
+            $input   = new Input();
+            $session = new Session($input, $store, null, [
+                'name'   => md5($config->get('sitename')),
+                'expire' => $config->get('session_expire')
             ]);
 
             return $session;
@@ -45,6 +51,6 @@ class SessionProvider implements ServiceProviderInterface {
         }, true, true);
 
         // On crée un alias pour la session.
-        $container->alias('session', 'Joomla\\Session\\Session');
+        $container->alias('session', 'Joomla\\Session\\SessionInterface');
     }
 }
