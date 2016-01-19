@@ -30,15 +30,18 @@ class SessionProvider implements ServiceProviderInterface {
      */
     public function register(Container $container) {
 
-        $container->set('Joomla\\Session\\SessionInterface', function () use ($container) {
+        $config = $container->get('config');
 
-            $config = $container->get('config');
+        $store = new NativeStorage(new DatabaseHandler($container->get('db')), [
+            'name'          => md5($config->get('sitename')),
+            'cookie_domain' => $config->get('cookie.domain'),
+            'cookie_path'   => $config->get('cookie.path')
+        ]);
 
-            $store = new NativeStorage(new DatabaseHandler($container->get('db')), [
-                'name'          => md5($config->get('sitename')),
-                'cookie_domain' => $config->get('cookie.domain'),
-                'cookie_path'   => $config->get('cookie.path')
-            ]);
+        $container->set('Joomla\\Session\\StorageInterface', $store);
+        $container->alias('storage', 'Joomla\\Session\\StorageInterface');
+
+        $container->set('Joomla\\Session\\SessionInterface', function () use ($store, $config) {
 
             $input   = new Input();
             $session = new Session($input, $store, null, [
