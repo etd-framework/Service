@@ -28,13 +28,18 @@ class ConfigurationProvider implements ServiceProviderInterface {
     /**
      * Constructeur.
      *
+     * @param string $file Le chemin vers le fichier de configuration.
+     *
      * @throws \RuntimeException
      */
+    public function __construct($file = null) {
 
-    public function __construct() {
+        if (!isset($file)) {
 
-        // On définit le chemin vers le fichier de configuration de l'application.
-        $file = JPATH_ROOT . '/etc/config.json';
+            // On définit le chemin vers le fichier de configuration de l'application.
+            $file = JPATH_ROOT . '/etc/config.json';
+
+        }
 
         // On vérifit que le fichier existe et qu'il est lisible.
         if (!is_readable($file)) {
