@@ -33,9 +33,12 @@ class SessionProvider implements ServiceProviderInterface {
         $config = $container->get('config');
 
         $store = new NativeStorage(new DatabaseHandler($container->get('db')), [
-            'name'          => md5($config->get('sitename')),
-            'cookie_domain' => $config->get('cookie.domain'),
-            'cookie_path'   => $config->get('cookie.path')
+            'name'            => md5($config->get('sitename')),
+            'cookie_domain'   => $config->get('cookie.domain'),
+            'cookie_path'     => $config->get('cookie.path'),
+            'cookie_httponly' => $config->get('cookie.httponly'),
+            'cookie_lifetime' => $config->get('cookie.lifetime'),
+            'cookie_secure'   => $config->get('cookie.secure')
         ]);
 
         $container->set('Joomla\\Session\\StorageInterface', $store);
