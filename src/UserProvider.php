@@ -28,14 +28,7 @@ class UserProvider implements ServiceProviderInterface {
     public function register(Container $container) {
 
         $container->set('EtdSolutions\\User\\User', function () use ($container) {
-
-            $session = $container->get('session');
-            $db      = $container->get('db');
-
-            $user = new User($session, $db);
-
-            return $user;
-
+            return new User($container);
         }, true, true);
 
         // On crée un alias pour la session.
