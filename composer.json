@@ -24,7 +24,8 @@
     "etdsolutions/renderer": "Pour utiliser l'extension Twig dans le fournisseur de service",
     "etdsolutions/user": "Pour utiliser l'utilisateur dans le fournisseur de service",
     "joomla/session": "Pour utiliser la session dans le fournisseur de service",
-    "joomla/event": "Pour utiliser la session dans le fournisseur de service"
+    "joomla/event": "Pour utiliser la session dans le fournisseur de service",
+    "monolog/monolog": "Pour utiliser le logger dans le fournisseur de service"
   },
   "autoload": {
     "psr-4": {
