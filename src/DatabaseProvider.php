@@ -40,6 +40,11 @@ class DatabaseProvider implements ServiceProviderInterface {
                 'prefix' => $config->get('database.prefix', '')
             ));
 
+            // Logger
+            if ($container->has('logger')) {
+                $db->setLogger($container->get('logger'));
+            }
+
             // Debug
             $db->setDebug($config->get('database.debug', false));
 
