@@ -12,6 +12,8 @@ namespace EtdSolutions\Service;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Monolog\Handler\TestHandler;
+use Monolog\Logger;
 
 /**
  * Fournisseur du service Database
@@ -32,17 +34,23 @@ class DatabaseProvider implements ServiceProviderInterface {
             $config = $container->get('config');
 
             $db = DatabaseDriver::getInstance(array(
-                'driver' => $config->get('database.driver'),
-                'host' => $config->get('database.host'),
-                'user' => $config->get('database.user'),
+                'driver'   => $config->get('database.driver'),
+                'host'     => $config->get('database.host'),
+                'user'     => $config->get('database.user'),
                 'password' => $config->get('database.password'),
                 'database' => $config->get('database.name'),
-                'prefix' => $config->get('database.prefix', '')
+                'prefix'   => $config->get('database.prefix', '')
             ));
 
             // Logger
             if ($container->has('logger')) {
                 $db->setLogger($container->get('logger'));
+            }
+
+            // Profiler
+            if ($container->has('profiler')) {
+                $db->setQuery("SET GLOBAL profiling = 1")
+                   ->execute();
             }
 
             // Debug
