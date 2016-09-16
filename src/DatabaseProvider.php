@@ -49,8 +49,12 @@ class DatabaseProvider implements ServiceProviderInterface {
 
             // Profiler
             if ($container->has('profiler')) {
-                $db->setQuery("SET GLOBAL profiling = 1")
-                   ->execute();
+            	try {
+		            $db->setQuery("SET GLOBAL profiling = 1")
+		               ->execute();
+	            } catch (\Exception $e) {
+
+	            }
             }
 
             // Debug
