@@ -46,8 +46,7 @@ class SessionProvider implements ServiceProviderInterface {
 
         $container->set('Joomla\\Session\\SessionInterface', function () use ($store, $config) {
 
-            $input   = new Input();
-            $session = new Session($input, $store, null, [
+            $session = new Session($store, null, [
                 'name'   => md5($config->get('sitename')),
                 'expire' => $config->get('session_expire')
             ]);
