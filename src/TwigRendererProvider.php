@@ -47,31 +47,34 @@ class TwigRendererProvider implements ServiceProviderInterface {
 
         $container->set('Joomla\\Renderer\\RendererInterface', function (Container $container) {
 
-                /* @type \Joomla\Registry\Registry $config */
-                $config = $container->get('config');
+            $config = $container->get('config');
 
-                // On instancie l'objet renderer.
-                $renderer = new TwigRenderer($config->get('template'));
+            $loader = new \Twig_Loader_Filesystem($config->get('template.path'));
 
-                // On ajoute l'extension Twig du Framework.
-                $renderer->getRenderer()->addExtension(new TwigExtension($this->app, $container));
+            $env = new \Twig_Environment($loader, $config->extract("template")->toArray());
 
-                // On ajoute l'extension de l'application si elle existe.
-                $class = APP_NAMESPACE . '\\Renderer\\TwigExtension';
-                if (class_exists($class)) {
-                    $renderer->getRenderer()->addExtension(new $class($this->app, $container));
-                }
+            // On instancie l'objet renderer.
+            $renderer = new TwigRenderer($env);
 
-                // On définit l'objet Lexer.
-                $renderer->getRenderer()->setLexer(
-                    new \Twig_Lexer($renderer->getRenderer(), ['delimiters' => [
-                        'tag_comment' => ['{#', '#}'],
-                        'tag_block' => ['{%', '%}'],
-                        'tag_variable' => ['{{', '}}']
-                    ]])
-                );
+            // On ajoute l'extension Twig du Framework.
+            $renderer->getRenderer()->addExtension(new TwigExtension($this->app, $container));
 
-                return $renderer;
+            // On ajoute l'extension de l'application si elle existe.
+            $class = APP_NAMESPACE . '\\Renderer\\TwigExtension';
+            if (class_exists($class)) {
+                $renderer->getRenderer()->addExtension(new $class($this->app, $container));
+            }
+
+            // On définit l'objet Lexer.
+            $renderer->getRenderer()->setLexer(
+                new \Twig_Lexer($renderer->getRenderer(), ['delimiters' => [
+                    'tag_comment' => ['{#', '#}'],
+                    'tag_block' => ['{%', '%}'],
+                    'tag_variable' => ['{{', '}}']
+                ]])
+            );
+
+            return $renderer;
 
         }, true, true);
 
