@@ -57,9 +57,6 @@ class DatabaseProvider implements ServiceProviderInterface {
 	            }
             }
 
-            // Debug
-            $db->setDebug($config->get('database.debug', false));
-
             return $db;
 
         }, true, true);
