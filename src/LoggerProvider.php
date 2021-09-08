@@ -39,7 +39,7 @@ class LoggerProvider implements ServiceProviderInterface {
                 $logger = new Logger($config->get('logger.name', 'default'));
 
                 if (is_dir(JPATH_LOGS)) {
-                    $logger->pushHandler(new StreamHandler(JPATH_LOGS . "/" . $config->get('logger.file'), ($config->get('debug') ? Logger::DEBUG : Logger::WARNING)));
+                    $logger->pushHandler(new StreamHandler(JPATH_LOGS . "/" . sprintf($config->get('logger.file'), date('d-m-Y')), ($config->get('debug') ? Logger::DEBUG : Logger::WARNING)));
                 } else { // If the log path is not set, just use a null logger.
                     $logger->pushHandler(new NullHandler, ($config->get('debug') ? Logger::DEBUG : Logger::WARNING));
                 }
